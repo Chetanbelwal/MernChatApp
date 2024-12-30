@@ -8,12 +8,10 @@ dotenv.config({ path: "./.env" });
 
 const app = express();
 
-const PORT = process.env.PORT|| 5000;
+const PORT = process.env.PORT || 8080;
 
-app.get("/favicon.ico", (req, res) => {
-  res.status(204).end(); // No Content
-});
-
+// Middleware
+app.use(express.json()); // Parse JSON payloads
 
 // Routes here
 app.use("/api/v1/user", userRoute);
