@@ -103,3 +103,17 @@ export const login = async (req, res) => {
       });
   } catch (error) {}
 };
+
+export const logout = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .clearCookie("token")
+      .json({ message: "Logout successfully", success: true });
+  } catch (error) {
+    console.error("Logout Error:", error);
+    return res
+      .status(500)
+      .json({ message: "Something went wrong", success: false });
+  }
+};
