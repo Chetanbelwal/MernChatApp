@@ -117,3 +117,18 @@ export const logout = async (req, res) => {
       .json({ message: "Something went wrong", success: false });
   }
 };
+
+export const getOtherUsers = async (req, res) => {
+  try {
+    const loggedInUserID = req.id
+    // Fetch all users except the logged-in user and exclude the password field
+    const otherUsers = await User.find({ _id: { $ne: loggedInUserID } }).select("-password");
+
+    return res.status(200).json({ otherUsers, success: true });
+  } catch (error) {
+    console.error("Get Other Users Error:", error);
+    return res
+      .status(500)
+      .json({ message: "Something went wrong", success: false });
+  }
+};
