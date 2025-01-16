@@ -1,15 +1,36 @@
-import React, { useState }  from "react";
+import React, { useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import OtherUsers from "./OtherUsers";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import {
+  setAuthUser,
+  setOtherUsers,
+  setSelectedUser,
+} from "../store/userSlice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     console.log("search");
   };
-  const logoutHandler = () => {
-    console.log("logout");
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/v1/user/logout`);
+      navigate("/login");
+      toast.success(res.data.message);
+      dispatch(setAuthUser(null));
+      // dispatch(setMessages(null));
+      dispatch(setOtherUsers(null));
+      dispatch(setSelectedUser(null));
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="border-r border-slate-500 p-4 flex flex-col">
@@ -30,7 +51,7 @@ const Sidebar = () => {
         </button>
       </form>
       <div className="divider px-3"></div>
-      <OtherUsers/>
+      <OtherUsers />
       <div className="mt-2">
         <button onClick={logoutHandler} className="btn btn-sm">
           Logout
