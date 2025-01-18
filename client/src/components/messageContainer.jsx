@@ -4,7 +4,7 @@ import SendInput from "./SendInput";
 import { useSelector } from "react-redux";
 
 const MessageContainer = () => {
-  const {selectedUser} = useSelector(store => store.user);
+  const {selectedUser, authUser} = useSelector(store => store.user);
   return (
     <>
       {selectedUser !== null ? (
@@ -29,7 +29,7 @@ const MessageContainer = () => {
         </div>
       ) : (
         <div className="md:min-w-[550px] flex flex-col justify-center items-center">
-          <h1 className="text-4xl text-white font-bold">Hi </h1>
+          <h1 className="text-4xl text-white font-bold">Hi, {authUser?.username}</h1>
           {/* <h1 className='text-4xl text-white font-bold'>Hi,{authUser?.fullName} </h1> */}
           <h1 className="text-2xl text-white">Let's start conversation</h1>
         </div>
