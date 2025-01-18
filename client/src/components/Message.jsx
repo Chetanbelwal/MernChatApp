@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-const Message = ({message}) => {
+const Message = ({ message }) => {
+  const scroll = useRef();
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
   return (
     // <div ref={scroll} className={`chat ${message?.senderId === authUser?._id ? 'chat-end' : 'chat-start'}`}>
-    <div className="chat chat-start">
+    <div ref={scroll} className="chat chat-start">
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
           <img
@@ -25,7 +30,7 @@ const Message = ({message}) => {
         {message?.message}
       </div> */}
       <div className="chat-bubble bg-gray-200 text-black">
-      {message?.message}
+        {message?.message}
       </div>
     </div>
   );

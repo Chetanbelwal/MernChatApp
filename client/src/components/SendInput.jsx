@@ -1,12 +1,36 @@
-import React, {useState } from 'react'
+import React, { useState } from "react";
 import { IoSend } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { setMessages } from "../store/messageSlice";
 
 const SendInput = () => {
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    alert("message sent");
-  };
   const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+  const { messages } = useSelector((store) => store.message);
+  const { selectedUser } = useSelector((store) => store.user);
+  const onSubmitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await axios.post(
+        `http://localhost:5000/api/v1/message/send/${selectedUser._id}`,
+        { message },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      dispatch(setMessages([...messages, res?.data?.newMessage]));
+    } catch (error) {
+      console.log(error);
+    }
+
+    setMessage("");
+  };
+
   return (
     <form onSubmit={onSubmitHandler} className="px-4 my-3">
       <div className="w-full relative">
