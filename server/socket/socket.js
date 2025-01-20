@@ -11,6 +11,7 @@ const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000", // Allow requests from this origin
     methods: ["GET", "POST"], // Allow only GET and POST HTTP methods
+    credentials: true,
   },
 });
 
@@ -18,10 +19,10 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log("A user connected with socket ID:", socket.id); // Log connection with unique socket ID
 
-//   // Listen for socket disconnection
-//   socket.on("disconnect", () => {
-//     console.log(`User with socket ID ${socket.id} disconnected`); // Log when a user disconnects
-//   });
+  // Listen for socket disconnection
+  socket.on("disconnect", () => {
+    console.log(`User with socket ID ${socket.id} disconnected`); // Log when a user disconnects
+  });
 
   // Add additional socket event handlers here (e.g., chat messages, notifications)
 });
