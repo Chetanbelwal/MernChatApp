@@ -3,19 +3,34 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import HomePage from "./components/HomePage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { setSocket } from "./store/socketSlice";
+import { setOnlineUsers } from "./store/userSlice";
 
 function App() {
-  const [socket, setSocket] = useState(null);
+  const dispatch = useDispatch();
   const { authUser } = useSelector((store) => store.user);
+  const { socket } = useSelector((store) => store.socket);
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:5000", {
-        withCredentials: true,
+      const socketio = io("http://localhost:5000", {
+        query: {
+          userId: authUser._id,
+        },
       });
-      setSocket(socket);
+      dispatch(setSocket(socketio));
+
+      socketio?.on("getOnlineUsers", (onlineUsers) => {
+        dispatch(setOnlineUsers(onlineUsers));
+      });
+      return () => socketio.close();
+    } else {
+      if (socket) {
+        socket.close();
+        dispatch(setSocket(null));
+      }
     }
   }, [authUser]);
 

@@ -15,13 +15,21 @@ const io = new Server(server, {
   },
 });
 
+const userSocketMap = {};
+
 // Listen for new client connections
 io.on("connection", (socket) => {
   console.log("A user connected with socket ID:", socket.id); // Log connection with unique socket ID
+  const userId = socket.handshake.query.userId; // Get user ID from query parameters
+  if (userId !== undefined) {
+    userSocketMap[userId] = socket.id;
+  }
 
-  // Listen for socket disconnection
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
   socket.on("disconnect", () => {
-    console.log(`User with socket ID ${socket.id} disconnected`); // Log when a user disconnects
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));  //Object.keys will return an array of keys(which is user id's in our case)
   });
 
   // Add additional socket event handlers here (e.g., chat messages, notifications)
