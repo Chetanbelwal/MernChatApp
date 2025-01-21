@@ -1,5 +1,6 @@
 import Conversation from "../models/conversationModel.js";
 import Message from "../models/messageModel.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 // Function: sendMessage
 // Purpose: Handles the sending of a message between two users. If a conversation does not already exist between the sender and receiver, it creates a new one.
@@ -32,8 +33,17 @@ export const sendMessage = async (req, res) => {
       message,
     });
 
-    gotConversation.messages.push(newMessage._id);
-    await gotConversation.save();
+    if (newMessage) {
+      gotConversation.messages.push(newMessage._id);
+    }
+
+    await Promise.all([gotConversation.save(), newMessage.save()]);
+
+    // SOCKET IO
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
 
     return res.status(201).json({
       newMessage,
