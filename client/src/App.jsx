@@ -38,7 +38,8 @@ function App() {
     <div className="p-4 h-screen flex items-center justify-center">
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={authUser ? <HomePage /> : <Login />} />
+
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>
