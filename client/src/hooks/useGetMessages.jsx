@@ -7,6 +7,7 @@ const useGetMessages = () => {
   
   const { selectedUser} = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   useEffect(() => {
     const fetchMessages = async () => {
       if (!selectedUser?._id) {
@@ -15,9 +16,9 @@ const useGetMessages = () => {
       }
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/v1/message/${selectedUser._id}`
+          `${BASE_URL}/api/v1/message/${selectedUser._id}`
         );
-        console.log("API response received:", res);
+        // console.log("API response received:", res);
         dispatch(setMessages(res.data))
       } catch (error) {
         console.error(

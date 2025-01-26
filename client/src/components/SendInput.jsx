@@ -9,11 +9,12 @@ const SendInput = () => {
   const dispatch = useDispatch();
   const { messages } = useSelector((store) => store.message);
   const { selectedUser } = useSelector((store) => store.user);
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
       const res = await axios.post(
-        `http://localhost:5000/api/v1/message/send/${selectedUser._id}`,
+        `${BASE_URL}/api/v1/message/send/${selectedUser._id}`,
         { message },
         {
           headers: {

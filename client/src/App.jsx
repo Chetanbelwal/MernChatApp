@@ -13,9 +13,10 @@ function App() {
   const dispatch = useDispatch();
   const { authUser } = useSelector((store) => store.user);
   const { socket } = useSelector((store) => store.socket);
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   useEffect(() => {
     if (authUser) {
-      const socketio = io("http://localhost:5000", {
+      const socketio = io(`${BASE_URL}`, {
         query: {
           userId: authUser._id,
         },

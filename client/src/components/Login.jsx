@@ -13,11 +13,12 @@ const Login = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/v1/user/login`,
+        `${BASE_URL}/api/v1/user/login`,
         user,
         {
           headers: {

@@ -18,6 +18,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     const conversationUser = otherUsers?.filter((user) =>
@@ -31,7 +32,7 @@ const Sidebar = () => {
 }
   const logoutHandler = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/v1/user/logout`);
+      const res = await axios.get(`${BASE_URL}/api/v1/user/logout`);
       navigate("/login");
       toast.success(res.data.message);
       dispatch(setAuthUser(null));

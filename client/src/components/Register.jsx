@@ -13,13 +13,14 @@ const Register = () => {
     gender: "",
   });
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   const handleCheckbox = (gender) => {
     setUser({ ...user, gender });
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:5000/api/v1/user/register`, user, {
+      const res = await axios.post(`${BASE_URL}/api/v1/user/register`, user, {
         headers: {
           'Content-Type': 'application/json'
         },
