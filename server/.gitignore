@@ -25,7 +25,6 @@ typings/
 .next
 .nuxt
 .cache/
-public
 .vuepress/dist
 .serverless/
 .fusebox/
