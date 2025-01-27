@@ -14,7 +14,7 @@ const useGetOtherUsers = () => {
         setTimeout(async () => {
           const res = await axios.get(`${BASE_URL}/api/v1/user/getOtherUsers`);
           dispatch(setOtherUsers(res.data.otherUsers));
-        }, 1000); // Delay for debugging
+        }, 5000); // Delay for debugging
       } catch (error) {
         console.error("Error Fetching Other Users:", error.response || error);
       }
