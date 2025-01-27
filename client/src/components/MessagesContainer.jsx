@@ -3,7 +3,7 @@ import Messages from "./Messages";
 import SendInput from "./SendInput";
 import { useSelector } from "react-redux";
 
-const MessageContainer = () => {
+const MessagesContainer = () => {
   const { selectedUser, authUser, onlineUsers } = useSelector(
     (store) => store.user
   );
@@ -41,4 +41,4 @@ const MessageContainer = () => {
   );
 };
 
-export default MessageContainer;
+export default MessagesContainer;
