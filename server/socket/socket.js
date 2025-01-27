@@ -1,12 +1,12 @@
 import { Server } from "socket.io"; // Import Socket.IO for real-time communication
 import http from "http"; // Import HTTP module to create a server
 import express from "express"; // Import Express framework for handling HTTP routes
-
+import dotenv from "dotenv";
 const app = express(); // Initialize Express app
 
 const server = http.createServer(app); // Create an HTTP server using Express app
 
-
+dotenv.config({ path: "./.env" });
 // Initialize Socket.IO server with CORS configuration
 const io = new Server(server, {
   cors: {
@@ -15,7 +15,6 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-
 
 export const getReceiverSocketId = (receiverId) => {
   return userSocketMap[receiverId];
