@@ -6,10 +6,11 @@ const app = express(); // Initialize Express app
 
 const server = http.createServer(app); // Create an HTTP server using Express app
 
+
 // Initialize Socket.IO server with CORS configuration
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Allow requests from this origin
+    origin: [process.env.FRONTEND_URL], // Allow requests from this origin
     methods: ["GET", "POST"], // Allow only GET and POST HTTP methods
     credentials: true,
   },
