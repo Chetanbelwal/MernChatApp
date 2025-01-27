@@ -17,6 +17,7 @@ function App() {
   useEffect(() => {
     if (authUser) {
       const socketio = io(`${BASE_URL}`, {
+        withCredentials: true,
         query: {
           userId: authUser._id,
         },
